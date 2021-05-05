@@ -1,8 +1,8 @@
 
 #include "DriverJeuLaser.h"
 
-
 void callback_son(void);
+void start_son(void);
 
 int main(void)
 {
@@ -58,5 +58,7 @@ Le signal PWM aura donc un rapport cyclique de 50%
 	
 while	(1)
 	{
+		start_son();
+		for (int i=0;i<5000000;i++){}
 	}
 }
