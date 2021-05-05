@@ -22,7 +22,54 @@
 ; écrire le code ici		
 
 
+export DFT_ModuleAuCarre
+;int DFT_ModuleAuCarre( short int * Signal64ech, char k) ;
 
+DFT_ModuleAuCarre proc 
+	;on prend de la plaaaace
+	push {lr}
+	push {r4}
+	push {r5}
+	push {r6}
+	push {r7}
+	push {r8}
+	
+	
+; à faire
+;partie réelle:
+;somme de 0 à M-1 de' x(n)*cos(2 pi/M * k*n)'
+
+;index=0
+	mov r3,#0
+	;notre somme
+	mov r8,#0
+	ldr r4,=TabCos
+	
+DEBUT
+	;r2=Signal[index]
+	ldr r2,[r0],r3
+	;r5=TabCos[index]
+	ldr r5,[r4],r3
+	;cos*signal
+	mul r2,r5
+	;somme+=cos*signal
+	add r8,r2
+	
+	
+	
+	add r3,#2
+	cmp r3,#128
+	bne DEBUT
+	
+	
+	pop {r8}
+	pop {r7}
+	pop {r6}
+	pop {r5}
+	pop {r4}
+	pop {lr}
+	bx lr
+	endp
 
 
 ;Section ROM code (read only) :		
@@ -94,6 +141,7 @@ TabCos
 	DCW	31357	; 61 0x7a7d  0.95694
 	DCW	32138	; 62 0x7d8a  0.98077
 	DCW	32610	; 63 0x7f62  0.99518
+	
 TabSin 
 	DCW	    0	;  0 0x0000  0.00000
 	DCW	 3212	;  1 0x0c8c  0.09802

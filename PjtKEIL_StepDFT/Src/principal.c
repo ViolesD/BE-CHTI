@@ -2,7 +2,7 @@
 
 #include "DriverJeuLaser.h"
 
-
+int DFT_ModuleAuCarre( short int * Signal64ech, char k) ;
 
 int main(void)
 {
@@ -23,6 +23,7 @@ CLOCK_Configure();
 	
 while	(1)
 	{
+
 	}
 }
 
