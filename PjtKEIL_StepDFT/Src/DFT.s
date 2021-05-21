@@ -22,7 +22,7 @@
 ; écrire le code ici		
 
 
-export DFT_ModuleAuCarre
+	export DFT_ModuleAuCarre
 ;int DFT_ModuleAuCarre( short int * Signal64ech, char k) ;
 
 DFT_ModuleAuCarre proc 
@@ -33,7 +33,7 @@ DFT_ModuleAuCarre proc
 	push {r6}
 	push {r7}
 	push {r8}
-	
+	push {r9}
 	
 ; à faire
 ;partie réelle:
@@ -43,25 +43,36 @@ DFT_ModuleAuCarre proc
 	mov r3,#0
 	;notre somme
 	mov r8,#0
+	mov r9,#0
 	ldr r4,=TabCos
-	
+	mov r6,#0
+	add r1,r1
 DEBUT
 	;r2=Signal[index]
-	ldr r2,[r0],r3
+	ldrsh r2,[r0,r6]
 	;r5=TabCos[index]
-	ldr r5,[r4],r3
+	ldrsh r5,[r4,r3]
 	;cos*signal
 	mul r2,r5
 	;somme+=cos*signal
-	add r8,r2
+	adc r8,r2
+	bcc nocarry
+	add r9,#1
+nocarry	
 	
-	
-	
-	add r3,#2
+	add r3,r1
 	cmp r3,#128
+	bmi SUITE
+	sub r3,#128
+SUITE
+
+	add r6,#2
+	cmp r6,#128
 	bne DEBUT
 	
+	smull r1,r0,r8,r8
 	
+	pop {r9}
 	pop {r8}
 	pop {r7}
 	pop {r6}
