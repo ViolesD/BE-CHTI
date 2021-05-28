@@ -7,12 +7,27 @@ extern short int LeSignal;
 
 void Systick_Period_ff( unsigned int Periode_ticks );
 void Systick_Prio_IT( char Prio, void (*Systick_function)(void) );
+int var[64];
+short int dma_buf[64];
+void callbackSystick(void){
+	//faire rien pour l'instant
+	Start_DMA1(64);
+	Wait_On_End_Of_DMA1();
+	Stop_DMA1;
+	
+	for(int k=0; k<64 ; k++){
+		var[k]=DFT_ModuleAuCarre(dma_buf,k);
+	}
+}
+
 
 
 int main(void)
 {
-	short int dma_buf[64];
 
+	
+Systick_Period_ff(360000);
+Systick_Prio_IT(3,callbackSystick);
 
 SysTick_On ;
 SysTick_Enable_IT ;
@@ -38,17 +53,11 @@ CLOCK_Configure();
 
 	
 	
-int var;
 
-Start_DMA1(64);
-Wait_On_End_Of_DMA1();
-Stop_DMA1;
+
+
 //============================================================================	
-	for (int k=1;k<64;k++){
-		var=DFT_ModuleAuCarre(&LeSignal,k);
-		var++;
-		var--;
-	}
+	
 while	(1)
 	{
 		
