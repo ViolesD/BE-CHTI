@@ -42,7 +42,7 @@ int var;
 
 Start_DMA1(64);
 Wait_On_End_Of_DMA1();
-top_DMA1;
+Stop_DMA1;
 //============================================================================	
 	for (int k=1;k<64;k++){
 		var=DFT_ModuleAuCarre(&LeSignal,k);
